@@ -103,7 +103,13 @@ public abstract class AbstractResultSet implements ResultSet
         List<Neo4jColumnMetaData> result = new ArrayList<Neo4jColumnMetaData>( columns.size() );
         for ( String column : columns )
         {
-            result.add( new Neo4jColumnMetaData( column, "String", Types.VARCHAR ) );
+			int type = Types.VARCHAR;
+			String typeName = "VARCHAR";
+			if(column.endsWith("start") || column.endsWith("end") || column.endsWith("updated") || column.endsWith("created")){
+				type = Types.TIMESTAMP;
+				typeName = "TIMESTAMP";
+			}
+            result.add( new Neo4jColumnMetaData( column, typeName, type ) );
         }
         return result;
     }
